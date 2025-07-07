@@ -1,0 +1,179 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminSite.master.cs" Inherits="ProjectSem6.AdminSite" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nail TrendZ Admin Panel</title>
+
+    <!-- Bootstrap & FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="adminStyles/adminstyles.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const body = document.body;
+
+            // Check localStorage for theme preference
+            if (localStorage.getItem("theme") === "dark") {
+                body.classList.add("dark-mode");
+            }
+
+            // Listen for theme change event from AdminSettings.aspx
+            document.addEventListener("themeChanged", function (event) {
+                if (event.detail === "dark") {
+                    body.classList.add("dark-mode");
+                    localStorage.setItem("theme", "dark");
+                } else {
+                    body.classList.remove("dark-mode");
+                    localStorage.setItem("theme", "light");
+                }
+            });
+        });
+    </script>
+<style>
+      body {
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        
+        .theme-toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 25px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Ensure text adapts to dark mode */
+        .dark-mode #settingsTitle,
+        .dark-mode #themeLabel {
+            color: #ffffff;
+        }
+        .dark-mode h4{
+            color: black;
+        }
+</style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <div class="wrapper">
+            
+            <!-- Sidebar -->
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3>Nail TrendZ</h3>
+                </div>
+                <ul class="list-unstyled components">
+                    <li class="active">
+                        <a href="AdminDashboard.aspx"><i class="fas fa-chart-line"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="AdminAppointments.aspx"><i class="fas fa-calendar-check"></i> Appointments</a>
+                    </li>
+                    <li>
+                        <a href="AdminDesigns.aspx"><i class="fas fa-paint-brush"></i> Designs</a>
+                    </li>
+                    <li>
+                        <a href="AdminUsers.aspx"><i class="fas fa-users"></i> Users</a>
+                    </li>
+                    <li>
+                        <a href="AdminFeedbacks.aspx"><i class="fas fa-comments"></i> Feedbacks</a>
+                    </li>
+                    <li>
+                        <a href="AdminSettings.aspx"><i class="fas fa-cog"></i> Settings</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Page Content -->
+            <div id="content">
+                
+                <!-- Top Navigation Bar -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <button type="button" id="sidebarCollapse" class="btn btn-outline-dark">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h4 class="ms-3">Admin Panel</h4>
+                    <div class="ms-auto">
+                    <a href="AdminLogout.aspx" class="btn btn-danger logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+                </nav>
+
+                <!-- Main Content Section -->
+                <div class="container mt-4">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Sidebar Toggle
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+</body>
+</html>
